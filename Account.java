@@ -1,0 +1,49 @@
+import java.util.*;
+
+public class Account {
+	protected int id;
+	protected int balance;
+	protected String username;
+	protected List<Transaction> transactions;
+
+	public Account(int id, String username) {
+		this.id = id;
+		this.balance = 0;
+		this.username = username;
+		this.transactions = new ArrayList<Transaction>();
+	}
+
+	public Transaction deposit(int amount) {
+		Transaction transaction;
+
+		if (amount > 0) {
+			this.balance += amount;
+			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, true);
+		} else {
+			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, false);
+		}
+
+		transactions.add(transaction);
+
+		return transaction;
+	}
+
+	public Transaction withdraw(int amount) {
+		Transaction transaction;
+
+		if (amount <= balance) {
+			this.balance -= amount;
+			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, true);
+		} else {
+			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, false);
+		}
+
+		transactions.add(transaction);
+
+		return transaction;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+}
