@@ -28,6 +28,9 @@ public class Test {
 		// login normal user
 		user = bank.login("user1", "password1");
 		assert(user.toString().equals("user1"));
+
+		//write this to the storage
+		bank.getStorage().writeStorage();
 	}
 
 	/*
@@ -49,7 +52,7 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
-		// Test.testUserManagement();
-		// Test.testAccount();
+		Test.testUserManagement();
+		Test.testAccount();
 	}
 }

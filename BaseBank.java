@@ -1,11 +1,11 @@
 import java.util.*;
 
 public class BaseBank {
-	private UserManagement um;
+	private BankStorage bs;
 	private HashMap<Integer, Account> accounts;
 
 	public BaseBank() {
-		this.um = new UserManagement(this);
+		this.bs = new BankStorage(this);
 		this.accounts = new HashMap<Integer, Account>();
 	}
 
@@ -13,14 +13,14 @@ public class BaseBank {
 	 * Given the login info, return the corresponding if exists
 	 */
 	public User login(String username, String password) {
-		return um.login(username, password);
+		return bs.getUM().login(username, password);
 	}
 
 	/*
 	 * Create an user with given username and password
 	 */
 	public User createUser(String username, String password) {
-		return um.createUser(username, password);
+		return bs.getUM().createUser(username, password);
 	}
 
 	/*
@@ -56,5 +56,9 @@ public class BaseBank {
 
 	public HashMap<Integer, Account> getAccounts() {
 		return accounts;
+	}
+
+	public BankStorage getStorage(){
+		return bs;
 	}
 }

@@ -43,7 +43,9 @@ public class BankStorage extends Storage{
                 JSONArray accountInfo = writeAccounts(hashUser.getAccounts());
             }*/
             //else if they are an admin
+            users.add(user);
         }
+        storage.put("users", users);
 
         //write it all to the file
         try(FileWriter file = new FileWriter(storagePath)){
