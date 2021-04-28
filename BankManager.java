@@ -6,6 +6,7 @@ public class BankManager extends User {
 	public BankManager(String username, String password, BaseBank bank) {
 		super(username, password);
 		this.bank = bank;
+		type = UserType.ADMIN;
 	}
 
 	public HashMap<Integer, Account> getAccounts() {

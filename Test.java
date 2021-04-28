@@ -49,7 +49,7 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
-		Test.testUserManagement();
-		Test.testAccount();
+		// Test.testUserManagement();
+		// Test.testAccount();
 	}
 }

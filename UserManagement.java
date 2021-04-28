@@ -18,7 +18,7 @@ public class UserManagement {
 	/*
 	 * Given the login info, return the corresponding if exists
 	 * TODO: the error message should be showed on GUI instead
-	 *       of command line 
+	 *       of command line
 	 */
 	public User login(String username, String password) {
 		User user = null;
@@ -39,7 +39,7 @@ public class UserManagement {
 	/*
 	 * Create an user with given username and password
 	 * TODO: the error message should be showed on GUI instead
-	 *       of command line 
+	 *       of command line
 	 */
 	public User createUser(String username, String password) {
 		User user = null;
@@ -53,5 +53,23 @@ public class UserManagement {
 		}
 
 		return user;
+	}
+
+	//add a user to the storage
+	public void addUser(User user){
+		users.put(user.getUsername(), user);
+	}
+
+	//get a user by their username
+	public User getUser(String username){
+		return users.get(username);
+	}
+
+	public HashMap<String, User> getUsers(){
+		return users;
+	}
+
+	public void setUsers(HashMap<String, User> users){
+		this.users = users;
 	}
 }
