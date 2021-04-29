@@ -127,8 +127,9 @@ public class BankStorage extends Storage{
                         else{
                             acc = new InvestmentAccount(id, username);
                         }
-                        acc.deposit(balance);
+                        acc.addMoney(balance);
                         user.addAccount(acc);
+                        bankPointer.addAccount(acc);
                     }
                     //add the user
                     um.addUser(user);

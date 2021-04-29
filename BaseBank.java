@@ -54,6 +54,10 @@ public class BaseBank {
 		return account;
 	}
 
+	public void addAccount(Account account){
+		this.accounts.put(account.getID(), account);
+	}
+
 	public HashMap<Integer, Account> getAccounts() {
 		return accounts;
 	}

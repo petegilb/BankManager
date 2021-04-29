@@ -44,6 +44,10 @@ public class Account {
 		return transaction;
 	}
 
+	public void addMoney(int toAdd){
+		this.balance += toAdd;
+	}
+
 	//getters and setters
 
 	public List<Transaction> getTransactions() {
