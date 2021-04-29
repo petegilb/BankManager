@@ -30,7 +30,7 @@ public class Test {
 		assert(user.toString().equals("user1"));
 
 		//write this to the storage
-		bank.getStorage().writeStorage();
+		//bank.getStorage().writeStorage();
 	}
 
 	/*
@@ -51,8 +51,34 @@ public class Test {
 		}
 	}
 
+	public static void testStorage(){
+		NormalUser user;
+		BaseBank bank = new BaseBank();
+		bank.createUser("user1", "password1");
+		user = (NormalUser) bank.login("user1", "password1");
+		bank.createUser("user2", "pswrd");
+		bank.createUser("user3", "joemama");
+
+		//check making accounts for users
+		Account checking = bank.createAccount(user, AccountType.CHECKING);
+		checking.deposit(1000);
+
+		bank.createAccount((NormalUser)bank.login("user3", "joemama"), AccountType.SAVING);
+
+		//write to storage
+		bank.getStorage().writeStorage();
+
+		//now test reading from what we just created
+		bank.getStorage().readStorage();
+		System.out.println(bank.getStorage().getUM().getUsers());
+		System.out.println(bank.getStorage().getUM().getUsers().get("user2").getPassword());
+		NormalUser testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user1");
+		System.out.println(testUser.getAccounts().get(0).getBalance());
+	}
+
 	public static void main(String[] args) {
 		Test.testUserManagement();
 		Test.testAccount();
+		Test.testStorage();
 	}
 }

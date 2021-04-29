@@ -5,6 +5,7 @@ public class Account {
 	protected int balance;
 	protected String username;
 	protected List<Transaction> transactions;
+	protected AccountType type;
 
 	public Account(int id, String username) {
 		this.id = id;
@@ -43,7 +44,36 @@ public class Account {
 		return transaction;
 	}
 
+	//getters and setters
+
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
+
+	public int getID(){
+		return id;
+	}
+
+	public void setID(int id){
+		this.id = id;
+	}
+
+	public int getBalance(){
+		return balance;
+	}
+
+	public void setBalance(int balance){
+		this.balance = balance;
+	}
+
+	public String getUsername(){
+		return username;
+	}
+
+	public AccountType getType(){
+		return type;
+	}
+
+
+
 }
