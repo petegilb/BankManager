@@ -1,12 +1,25 @@
 import java.util.*;
 
 public class BaseBank {
+	private static BaseBank bank = new BaseBank();
+
 	private BankStorage bs;
 	private HashMap<Integer, Account> accounts;
+	private HashMap<String, Double> exchangeRates;
 
 	public BaseBank() {
 		this.bs = new BankStorage(this);
 		this.accounts = new HashMap<Integer, Account>();
+		this.exchangeRates = new HashMap<String, Double>();
+		this.exchangeRates.put("USD", 1.0);
+	}
+
+	public static BaseBank getBank() {
+		if (bank == null) {
+			BaseBank.bank = new BaseBank();
+		}
+
+		return bank;
 	}
 
 	/*
@@ -64,5 +77,16 @@ public class BaseBank {
 
 	public BankStorage getStorage(){
 		return bs;
+	}
+
+	/*
+	 * Allow bankmanager to add exchange rate for different currency
+	 */
+	public void AddExchangeRate(String currency, Double rate) {
+		this.exchangeRates.put(currency, rate);
+	}
+
+	public double getExchangeRate(String currency) {
+		return this.exchangeRates.get(currency);
 	}
 }

@@ -7,7 +7,7 @@ public class Test {
 	 */
 	public static void testUserManagement() {
 		User user;
-		BaseBank bank = new BaseBank();
+		BaseBank bank = BaseBank.getBank();
 
 		// admin login success
 		user = bank.login("admin", "12345");
@@ -37,11 +37,11 @@ public class Test {
 	 * Test account functionality
 	 */
 	public static void testAccount() {
-		BaseBank bank = new BaseBank();
+		BaseBank bank = BaseBank.getBank();
 		NormalUser user = new NormalUser("user1", "password1");
 
 		Account checking = bank.createAccount(user, AccountType.CHECKING);
-		checking.deposit(1000);
+		checking.deposit(1000, "USD");
 
 		HashMap<Integer, Account> history = bank.getAccounts();
 		for (Account account : history.values()) {
@@ -53,7 +53,7 @@ public class Test {
 
 	public static void testStorage(){
 		NormalUser user;
-		BaseBank bank = new BaseBank();
+		BaseBank bank = BaseBank.getBank();
 		bank.createUser("user1", "password1");
 		user = (NormalUser) bank.login("user1", "password1");
 		bank.createUser("user2", "pswrd");
@@ -61,7 +61,7 @@ public class Test {
 
 		//check making accounts for users
 		Account checking = bank.createAccount(user, AccountType.CHECKING);
-		checking.deposit(1000);
+		checking.deposit(1000, "USD");
 
 		bank.createAccount((NormalUser)bank.login("user3", "joemama"), AccountType.SAVING);
 
@@ -73,7 +73,7 @@ public class Test {
 		System.out.println(bank.getStorage().getUM().getUsers());
 		System.out.println(bank.getStorage().getUM().getUsers().get("user2").getPassword());
 		NormalUser testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user1");
-		System.out.println(testUser.getAccounts().get(0).getBalance());
+		System.out.println(testUser.getAccounts().get(0).getBalance("USD"));
 	}
 
 	public static void main(String[] args) {

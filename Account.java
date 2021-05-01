@@ -14,14 +14,15 @@ public class Account {
 		this.transactions = new ArrayList<Transaction>();
 	}
 
-	public Transaction deposit(double amount) {
+	public Transaction deposit(double amount, String currency) {
 		Transaction transaction;
+		double amountInUSD = amount / BaseBank.getBank().getExchangeRate(currency);
 
 		if (amount > 0) {
-			this.balance += amount;
-			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, true);
+			this.balance += amountInUSD;
+			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, currency, true);
 		} else {
-			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, false);
+			transaction = new Transaction(username, TransactionType.DEPOSIT, amount, currency, false);
 		}
 
 		transactions.add(transaction);
@@ -29,14 +30,16 @@ public class Account {
 		return transaction;
 	}
 
-	public Transaction withdraw(double amount) {
+	public Transaction withdraw(double amount, String currency) {
 		Transaction transaction;
 
-		if (amount <= balance) {
-			this.balance -= amount;
-			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, true);
+		double amountInUSD = amount / BaseBank.getBank().getExchangeRate(currency);
+
+		if (amountInUSD <= balance) {
+			this.balance -= amountInUSD;
+			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, currency, true);
 		} else {
-			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, false);
+			transaction = new Transaction(username, TransactionType.WITHDRAW, amount, currency, false);
 		}
 
 		transactions.add(transaction);
@@ -62,8 +65,8 @@ public class Account {
 		this.id = id;
 	}
 
-	public double getBalance(){
-		return balance;
+	public double getBalance(String currency){
+		return balance * BaseBank.getBank().getExchangeRate(currency);
 	}
 
 	public void setBalance(int balance){

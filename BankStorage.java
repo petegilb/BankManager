@@ -73,7 +73,7 @@ public class BankStorage extends Storage{
             JSONObject account = new JSONObject();
             Account curr = accounts.get(i);
             account.put("id", curr.getID());
-            account.put("balance", curr.getBalance());
+            account.put("balance", curr.getBalance("USD"));
             if(curr.getType() == AccountType.CHECKING){
                 account.put("type", "Checking");
             }
