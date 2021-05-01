@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Account {
 	protected int id;
-	protected int balance;
+	protected double balance;
 	protected String username;
 	protected List<Transaction> transactions;
 	protected AccountType type;
@@ -14,7 +14,7 @@ public class Account {
 		this.transactions = new ArrayList<Transaction>();
 	}
 
-	public Transaction deposit(int amount) {
+	public Transaction deposit(double amount) {
 		Transaction transaction;
 
 		if (amount > 0) {
@@ -29,7 +29,7 @@ public class Account {
 		return transaction;
 	}
 
-	public Transaction withdraw(int amount) {
+	public Transaction withdraw(double amount) {
 		Transaction transaction;
 
 		if (amount <= balance) {
@@ -62,7 +62,7 @@ public class Account {
 		this.id = id;
 	}
 
-	public int getBalance(){
+	public double getBalance(){
 		return balance;
 	}
 
