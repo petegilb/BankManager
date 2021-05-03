@@ -20,7 +20,7 @@ public class Test {
 		checking.deposit(1000, "USD");
 
 		// get loan
-		LoanReceipt loan = bank.getStorage().getLM().getLoan(user, 500, "USD");
+		LoanReceipt loan = user.borrowLoan(checking, 500, "USD");
 
 		// pay loan back
 		boolean success =  bank.getStorage().getLM().payBack(user, checking, loan);
