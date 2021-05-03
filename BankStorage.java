@@ -14,14 +14,17 @@ public class BankStorage extends Storage{
     //variables
     private final String storagePath = "storage.json";
     private UserManagement um;
+    private LoanManagement lm;
+    private StockManagement sm;
     private BaseBank bankPointer;
     //stocks to be added later
 
     //constructor
     public BankStorage(BaseBank bank){
-        um = new UserManagement(bank);
+        um = new UserManagement();
+        lm = new LoanManagement();
+        sm = new StockManagement();
         bankPointer = bank;
-
     }
 
     //method to write the current object to the filepath
@@ -91,7 +94,9 @@ public class BankStorage extends Storage{
     //method to read the info from the file and set the object accordingly
     public void readStorage(){
         //reset the current storage info
-        um = new UserManagement(bankPointer);
+        um = new UserManagement();
+        lm = new LoanManagement();
+        sm = new StockManagement();
 
         JSONParser jsonParser = new JSONParser();
         try (FileReader reader = new FileReader(storagePath)) {
@@ -138,7 +143,7 @@ public class BankStorage extends Storage{
                 else{
                     String username = (String) currUser.get("username");
                     String password = (String) currUser.get("password");
-                    BankManager bm = new BankManager(username, password, bankPointer);
+                    BankManager bm = new BankManager(username, password);
                     um.addUser(bm);
                 }
             }
@@ -160,5 +165,21 @@ public class BankStorage extends Storage{
 
     public void setUM(UserManagement um){
         this.um = um;
+    }
+
+    public LoanManagement getLM(){
+        return lm;
+    }
+
+    public void setLM(){
+        this.lm = lm;
+    }
+
+    public StockManagement getSM(){
+        return sm;
+    }
+
+    public void setSM(){
+        this.sm = sm;
     }
 }

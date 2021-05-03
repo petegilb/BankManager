@@ -3,16 +3,14 @@ import java.util.*;
 public class UserManagement {
 	private HashMap<String, String> loginInfos;
 	private HashMap<String, User> users;
-	private BaseBank bank;
 
-	public UserManagement(BaseBank bank) {
+	public UserManagement() {
 		this.loginInfos = new HashMap<String, String>();
 		this.users = new HashMap<String, User>();
-		this.bank = bank;
 
 		// initialize the manager here;
 		loginInfos.put("admin", "12345");
-		users.put("admin", new BankManager("admin", "12345", bank));
+		users.put("admin", new BankManager("admin", "12345"));
 	}
 
 	/*

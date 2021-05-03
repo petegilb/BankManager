@@ -13,6 +13,26 @@ public class Transaction {
 		this.success = success;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+
+	public TransactionType getType() {
+		return type;
+	}
+
+	public double getAmount() {
+		return amount;
+	}
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
 	public String toString() {
 		return "User: " + username + ", Type: " + type.name() + 
 		 ", Amount: " + amount + ", Currency: " + currency + ", Success:" + success;
