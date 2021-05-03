@@ -15,8 +15,7 @@ public class UserManagement {
 
 	/*
 	 * Given the login info, return the corresponding if exists
-	 * TODO: the error message should be showed on GUI instead
-	 *       of command line
+	 * GUI prints "invalid information"
 	 */
 	public User login(String username, String password) {
 		User user = null;
@@ -25,25 +24,23 @@ public class UserManagement {
 			if (loginInfos.get(username).equals(password)) {
 				user = users.get(username);
 			} else {
-				System.out.println("Wrong password");
+				//System.out.println("Wrong password");
 			}
 		} else {
-			System.out.println("User does not exist");
+			//System.out.println("User does not exist");
 		}
-
 		return user;
 	}
 
 	/*
 	 * Create an user with given username and password
-	 * TODO: the error message should be showed on GUI instead
-	 *       of command line
+	 * GUI shows when username is taken
 	 */
 	public User createUser(String username, String password) {
 		User user = null;
 
 		if (loginInfos.containsKey(username)) {
-			System.out.println("User already exists");
+			//System.out.println("User already exists");
 		} else {
 			loginInfos.put(username, password);
 			user = new NormalUser(username, password);
