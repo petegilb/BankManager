@@ -73,7 +73,7 @@ public class Account {
 		return balance * BaseBank.getBank().getExchangeRate(currency);
 	}
 
-	public void setBalance(int balance){
+	public void setBalance(double balance){
 		this.balance = balance;
 	}
 
