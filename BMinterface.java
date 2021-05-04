@@ -2,11 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 public class BMinterface implements ActionListener {
     // bank user interface and options
 
     private static JFrame frame;
+    public static BaseBank bank;
+    public static BankManager manager;
 
     public BMinterface() {
 
@@ -14,14 +17,10 @@ public class BMinterface implements ActionListener {
         frame = new JFrame("Java Bank ATM");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
         addToPane(frame.getContentPane());
         frame.pack();
         frame.setSize(400, 400);
         frame.setVisible(true);
-
-
-
 
     }
 
@@ -46,11 +45,15 @@ public class BMinterface implements ActionListener {
 
         if (e.getActionCommand().equals("View All Transactions")) {
             //print all transactions
-
+            HashMap<Integer, Account> history = bank.getAccounts();
+            for (Account account : history.values()) {
+                //prints each user accounts transactions in each dialog box
+                JOptionPane.showMessageDialog(null, "Transactions for account: "+ account+ " " + account.getTransactions());
+            }
 
         } else if (e.getActionCommand().equals("Update Stock Prices")) {
 
-            Object[] stocks = {"Apple APPL", "stock2", "stock3"};
+            Object[] stocks = {"Apple AAPL", "stock2", "stock3"};
             String update = (String)JOptionPane.showInputDialog(
                     null,
                     "Which stock price would you like to update?",
@@ -64,6 +67,7 @@ public class BMinterface implements ActionListener {
                 String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");
                 double price = Double.parseDouble(newPrice);
                 //overwrite apple stock price
+                manager.setStockPrice("APPL", price);
 
             } else if (update ==stocks[1]) {
                 String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");

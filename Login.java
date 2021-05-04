@@ -87,7 +87,7 @@ public class Login implements ActionListener {
                 success.setText("Welcome back to Java bank! Accessing bank information...");
 
                 //opens user bank interface for user
-                new UserBank(bank.login(uText,uPassword));
+                new UserBank(new NormalUser(uText, uPassword));
                 loginFrame.setVisible(false);
 
             } else {

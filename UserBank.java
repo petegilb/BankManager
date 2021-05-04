@@ -7,10 +7,12 @@ public class UserBank implements ActionListener {
     // bank user interface and options
 
     private static JFrame frame;
-    public static User activeUser;
+    public static NormalUser activeUser;
+    public static BaseBank bank;
 
-    public UserBank(User loggedIn) {
+    public UserBank(NormalUser loggedIn) {
 
+        bank= BaseBank.getBank();
         activeUser= loggedIn;
 
         //Creating Java Swing frame
@@ -54,7 +56,37 @@ public class UserBank implements ActionListener {
             if (answer == JOptionPane.YES_OPTION) {
                 String dep = JOptionPane.showInputDialog("Enter the amount you would like to deposit : ");
                 double depositAmount = Double.parseDouble(dep);
-                //user.balance+=depositAmount;
+
+                Object[] types = {"Checking", "Savings", "Securities/Investments"};
+                String acc = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Please choose which account you would like to deposit into",
+                        "Deposits",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        types,
+                        "Checking");
+
+                if (acc == types[0]) {
+
+                    //deposit to checking acc
+
+                    JOptionPane.showMessageDialog(null,"Deposited to checking account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+
+                } else if (acc == types[1]) {
+
+                    //deposit to savings acc
+
+                    JOptionPane.showMessageDialog(null,"Deposited to savings account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+
+                } else if (acc == types[2]) {
+
+                    //deposits to securities acc
+
+
+
+                    JOptionPane.showMessageDialog(null,"Deposited to Investment account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+                }
 
                 //JOptionPane.showMessageDialog(null,"Your current balance is now: $"+ user.getBalance() );
             }
@@ -63,10 +95,43 @@ public class UserBank implements ActionListener {
 
             double ans = JOptionPane.showConfirmDialog(null, "Are you here to withdraw?", "Click it:", JOptionPane.YES_NO_OPTION);
             if (ans == JOptionPane.YES_OPTION) {
-                String withdraw = JOptionPane.showInputDialog("Enter the amount you would like to withdraw: $");
-                double takeOut = Double.parseDouble(withdraw);
-                //double amt= takeOut + user.getBalance();
-                //user.setBalance(amt);
+
+                Object[] types = {"Checking", "Savings", "Securities/Investments"};
+                String acc = (String)JOptionPane.showInputDialog(
+                        null,
+                        "Please choose which account you would like to withdraw from",
+                        "Deposits",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        types,
+                        "Checking");
+
+                if (acc == types[0]) {
+                    String withdraw = JOptionPane.showInputDialog("Enter the amount you would like to withdraw: $");
+                    double takeOut = Double.parseDouble(withdraw);
+
+                    //withdraw from checking acc
+
+
+                    JOptionPane.showMessageDialog(null,"Withdrawn from checking account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+
+                } else if (acc == types[1]) {
+                    String withdraw = JOptionPane.showInputDialog("Enter the amount you would like to withdraw: $");
+                    double takeOut = Double.parseDouble(withdraw);
+
+                    //withdraw from savings acc
+
+                    JOptionPane.showMessageDialog(null,"Withdrawn from savings account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+
+                } else if (acc == types[2]) {
+                    String withdraw = JOptionPane.showInputDialog("Enter the amount you would like to withdraw: $");
+                    double takeOut = Double.parseDouble(withdraw);
+
+                    //withdraw from securities acc
+
+
+                    JOptionPane.showMessageDialog(null,"Withdrawn from Investment account!", "Deposits", JOptionPane.PLAIN_MESSAGE);
+                }
 
                 //JOptionPane.showMessageDialog(null,"Your total balance is now: $"+ activeUser.getbalances;
             }
@@ -86,8 +151,10 @@ public class UserBank implements ActionListener {
                 double collateral= Double.parseDouble(colAmount);
 
                 if (takeOut<= collateral) {
-                    JOptionPane.showMessageDialog(null,"Your loan has been accepted");
+                    JOptionPane.showMessageDialog(null,"Your loan has been approved");
                     // add loan
+
+                    //activeUser.borrowLoan(account, takeOut,"USD");
                 }
 
             }
@@ -151,7 +218,7 @@ public class UserBank implements ActionListener {
         } else if (e.getActionCommand().equals("New Account")) {
             double sendAnswer = JOptionPane.showConfirmDialog(null, "Would you like to open a new account?", "Please click below:", JOptionPane.YES_NO_OPTION);
 
-            Object[] types = {"Checking", "Savings", "Securities"};
+            Object[] types = {"Checking", "Savings", "Securities/Investments"};
             String newAcc = (String)JOptionPane.showInputDialog(
                     null,
                     "Please choose an account type to open",
@@ -163,14 +230,21 @@ public class UserBank implements ActionListener {
 
             if (newAcc == types[0]) {
                 //open new checking account
+                bank.createAccount(activeUser, AccountType.CHECKING);
+                JOptionPane.showMessageDialog(null,"New Checking account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
 
             } else if (newAcc == types[1]) {
                 //open new savings account
+                bank.createAccount(activeUser, AccountType.SAVING);
+                JOptionPane.showMessageDialog(null,"New Savings account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
 
             } else if (newAcc == types[2]) {
+
                 //open new securities account if they have 5000+ in savings
-                String accAmount = JOptionPane.showInputDialog("Enter the amount you would like to transfer to securities account $");
-                double bal = Double.parseDouble(accAmount);
+
+
+                bank.createAccount(activeUser, AccountType.INVESTMENT);
+                JOptionPane.showMessageDialog(null,"New Investment account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
 
 
             }
