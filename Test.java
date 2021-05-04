@@ -128,16 +128,23 @@ public class Test {
 	public static void testStorage(){
 		NormalUser user;
 		BaseBank bank = BaseBank.getBank();
-		bank.createUser("user1", "password1");
-		user = (NormalUser) bank.login("user1", "password1");
-		bank.createUser("user2", "pswrd");
-		bank.createUser("user3", "joemama");
+		bank.createUser("user5", "password5");
+		user = (NormalUser) bank.login("user5", "password5");
+		bank.createUser("user6", "pswrd");
+		bank.createUser("user7", "joemama");
 
 		//check making accounts for users
 		Account checking = bank.createAccount(user, AccountType.CHECKING);
 		checking.deposit(1000, "USD");
+		user = (NormalUser) bank.login("user7", "joemama");
+		System.out.println(user.getUsername());
+		bank.createAccount(user, AccountType.SAVING);
+		LoanReceipt loan = user.borrowLoan(checking, 500, "USD");
 
-		bank.createAccount((NormalUser)bank.login("user3", "joemama"), AccountType.SAVING);
+		user = (NormalUser) bank.getStorage().getUM().getUsers().get("user6");
+		InvestmentAccount investTest = (InvestmentAccount) bank.createAccount(user, AccountType.INVESTMENT);
+		investTest.deposit(10000, "USD");
+		investTest.buyStock("APPL", 5);
 
 		//write to storage
 		bank.getStorage().writeStorage();
@@ -145,9 +152,22 @@ public class Test {
 		//now test reading from what we just created
 		bank.getStorage().readStorage();
 		System.out.println(bank.getStorage().getUM().getUsers());
-		System.out.println(bank.getStorage().getUM().getUsers().get("user2").getPassword());
-		NormalUser testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user1");
+		System.out.println(bank.getStorage().getUM().getUsers().get("user6").getPassword());
+		NormalUser testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user5");
 		System.out.println(testUser.getAccounts().get(0).getBalance("USD"));
+
+		testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user6");
+		investTest = (InvestmentAccount) testUser.getAccounts().get(0);
+		System.out.println(investTest.getHoldStocks().get("APPL").get(0).getName());
+
+		System.out.println(bank.getStorage().getSM().getStocks());
+
+		testUser = (NormalUser) bank.getStorage().getUM().getUsers().get("user2");
+		System.out.println(testUser.getAccounts().get(0).getTransactions());
+
+		//loan tester
+		System.out.println(bank.getStorage().getLM().getLoanReceipts().get("user7").get(0).getAmount());
+
 
 		System.out.println();
 	}
@@ -162,6 +182,6 @@ public class Test {
 		Test.testUserManagement();
 		Test.testAccount();
 		Test.testStorage();
-		Test.testGUI();
+		//Test.testGUI();
 	}
 }

@@ -14,6 +14,10 @@ public class NormalUser extends User {
 		this.accounts.add(account);
 	}
 
+	public List<LoanReceipt> getLoans(){
+		return loans;
+	}
+
 	public List<Account> getAccounts(){
 		return accounts;
 	}

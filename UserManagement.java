@@ -53,6 +53,7 @@ public class UserManagement {
 	//add a user to the storage
 	public void addUser(User user){
 		users.put(user.getUsername(), user);
+		loginInfos.put(user.getUsername(), user.getPassword());
 	}
 
 	//get a user by their username

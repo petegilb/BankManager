@@ -13,7 +13,7 @@ public class InvestmentAccount extends Account {
 
 	public boolean buyStock(String name, int numShares) {
 		List<Share> shares = BaseBank.getBank().getStorage().getSM().buyStock(this, name, numShares);
-		
+
 		if (!holdStocks.containsKey(name)) {
 			holdStocks.put(name, new ArrayList<Share>());
 		}
@@ -34,7 +34,7 @@ public class InvestmentAccount extends Account {
 		holdStocks.put(name, allShares.subList(numShares, allShares.size()));
 
 		BaseBank.getBank().getStorage().getSM().sellStock(this, shares);
-		
+
 		if (!soldStocks.containsKey(name)) {
 			soldStocks.put(name, new ArrayList<Share>());
 		}
@@ -78,5 +78,20 @@ public class InvestmentAccount extends Account {
 		}
 
 		return realizedGain;
+	}
+
+	public HashMap<String, List<Share>> getHoldStocks(){
+		return holdStocks;
+	}
+
+	public HashMap<String, List<Share>> getSoldStocks(){
+		return soldStocks;
+	}
+
+	public void setHoldStocks(HashMap<String, List<Share>> holdStocks){
+		this.holdStocks = holdStocks;
+	}
+	public void setSoldStocks(HashMap<String, List<Share>> soldStocks){
+		this.soldStocks = soldStocks;
 	}
 }

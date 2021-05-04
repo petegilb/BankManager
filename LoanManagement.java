@@ -37,4 +37,16 @@ public class LoanManagement {
 
 		return success;
 	}
+
+	public HashMap<String, List<LoanReceipt>> getLoanReceipts(){
+		return loanReceipts;
+	}
+
+	public double getRate(){
+		return rate;
+	}
+
+	public void addLoanReceipt(String username, ArrayList<LoanReceipt> toAdd){
+		loanReceipts.put(username, toAdd);
+	}
 }

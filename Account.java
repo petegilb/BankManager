@@ -53,6 +53,10 @@ public class Account {
 
 	//getters and setters
 
+	public void setTransactions(List<Transaction> transactions){
+		this.transactions = transactions;
+	}
+
 	public List<Transaction> getTransactions() {
 		return transactions;
 	}
