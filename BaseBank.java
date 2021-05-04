@@ -75,6 +75,10 @@ public class BaseBank {
 		return accounts;
 	}
 
+	public HashMap<String, Double> getCurrencies() {
+		return exchangeRates;
+	}
+
 	public BankStorage getStorage(){
 		return bs;
 	}

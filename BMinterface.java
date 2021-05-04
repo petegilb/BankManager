@@ -35,7 +35,10 @@ public class BMinterface implements ActionListener {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         addAButton("View All Transactions", pane);
+        addAButton("Add a new stock", pane);
         addAButton("Update Stock Prices", pane);
+        addAButton("Add a Currency", pane);
+        addAButton("Change loan interest rate", pane);
 
     }
 
@@ -48,39 +51,85 @@ public class BMinterface implements ActionListener {
             HashMap<Integer, Account> history = bank.getAccounts();
             for (Account account : history.values()) {
                 //prints each user accounts transactions in each dialog box
-                JOptionPane.showMessageDialog(null, "Transactions for account: "+ account+ " " + account.getTransactions());
+                JOptionPane.showMessageDialog(null, "Transactions for account: " + account + " " + account.getTransactions());
             }
 
         } else if (e.getActionCommand().equals("Update Stock Prices")) {
 
-            Object[] stocks = {"Apple AAPL", "stock2", "stock3"};
-            String update = (String)JOptionPane.showInputDialog(
+            Object[] stocks ={" "};
+            HashMap curStocks =bank.getStorage().getSM().getStocks();
+            int i=0;
+            for (Object stockName : curStocks.keySet()){
+                stocks[i]= stockName;
+                i++;
+            }
+
+            String update = (String) JOptionPane.showInputDialog(
                     null,
                     "Which stock price would you like to update?",
                     "Investment Management",
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     stocks,
-                    "Apple APPL");
+                    stocks[0]);
 
-            if (update == stocks[0] ) {
                 String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");
                 double price = Double.parseDouble(newPrice);
-                //overwrite apple stock price
-                manager.setStockPrice("APPL", price);
+                //overwrite stock price
+                manager.setStockPrice(update, price);
 
-            } else if (update ==stocks[1]) {
-                String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");
-                double price = Double.parseDouble(newPrice);
-                //overwrite cost of stock2
+            JOptionPane.showMessageDialog(null, "Stock price updated!", "Stock updates", JOptionPane.PLAIN_MESSAGE);
 
-            } else if (update == stocks[2]) {
-                String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");
-                double price = Double.parseDouble(newPrice);
-                //overwrite cost of stock3
+
+
+
+        } else if (e.getActionCommand().equals("Add a new stock")) {
+            double investAnswer = JOptionPane.showConfirmDialog(null, "Would you like to add a new stock?", "Please click below:", JOptionPane.YES_NO_OPTION);
+
+            if (investAnswer == JOptionPane.YES_OPTION) {
+                //lets bank manager add to stock list
+                String name = JOptionPane.showInputDialog("Enter the name of this new stock");
+                String theCost = JOptionPane.showInputDialog("Enter the price of this new stock $");
+                double cost = Double.parseDouble(theCost);
+
+                manager.addStock(name,cost);
+                JOptionPane.showMessageDialog(null, "New Stock added!", "New Stocks", JOptionPane.PLAIN_MESSAGE);
+
 
             }
+
+        } else if (e.getActionCommand().equals("Add a Currency")) {
+            double investAnswer = JOptionPane.showConfirmDialog(null, "Would you like to add a new currency?", "Please click below:", JOptionPane.YES_NO_OPTION);
+
+            if (investAnswer == JOptionPane.YES_OPTION) {
+
+                String name = JOptionPane.showInputDialog("Enter the name of this new currency");
+                String theRate = JOptionPane.showInputDialog("Enter the exchange rate of this new currency :");
+                double rate = Double.parseDouble(theRate);
+
+                bank.AddExchangeRate(name, rate);
+                JOptionPane.showMessageDialog(null, "New Currency added!", "New Currencies", JOptionPane.PLAIN_MESSAGE);
+
+            }
+
+        }  else if(e.getActionCommand().equals("Change loan interest rate")){
+
+            double investAnswer = JOptionPane.showConfirmDialog(null, "Would you like to change the loan interest rate?", "Please click below:", JOptionPane.YES_NO_OPTION);
+
+            if (investAnswer == JOptionPane.YES_OPTION) {
+
+                String theRate = JOptionPane.showInputDialog("Enter the new loan interest rate: ");
+                double rate = Double.parseDouble(theRate);
+
+                manager.setLoanInterestRate(rate);
+
+                JOptionPane.showMessageDialog(null, "Loan interest rate changed!", "Loans", JOptionPane.PLAIN_MESSAGE);
+
+            }
+
         }
 
+
     }
+
 }

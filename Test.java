@@ -182,6 +182,6 @@ public class Test {
 		Test.testUserManagement();
 		Test.testAccount();
 		Test.testStorage();
-		//Test.testGUI();
+		Test.testGUI();
 	}
 }

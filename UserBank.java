@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserBank implements ActionListener {
     // bank user interface and options
@@ -34,7 +36,7 @@ public class UserBank implements ActionListener {
         addAButton("Deposit", pane);
         addAButton("Take out a Loan", pane);
         addAButton("Investments", pane);
-        addAButton("Transfer Money", pane);
+        addAButton("Pay off Loan", pane);
         addAButton("New Account", pane);
 
     }
@@ -66,7 +68,15 @@ public class UserBank implements ActionListener {
                         null,
                         types,
                         "Checking");
-                Object[] currencies = {"USD", "CA", "MX"};
+
+                Object[] currencies ={" "};
+                HashMap eRates =bank.getCurrencies();
+                int i=0;
+                for (Object cur : eRates.keySet()){
+                        currencies[i]= cur;
+                        i++;
+                }
+
                 String currency = (String)JOptionPane.showInputDialog(
                         null,
                         "Please choose what currency you are depositing in",
@@ -74,7 +84,7 @@ public class UserBank implements ActionListener {
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         currencies,
-                        "USD");
+                        currencies[0]);
 
                 if (acc == types[0]) {
                     //deposit to checking acc
@@ -83,6 +93,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.CHECKING) {
                             ckAcc=accs;
+                            break;
                         }
                     }
                     if (ckAcc!=null){
@@ -99,6 +110,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.CHECKING) {
                             savAcc=accs;
+                            break;
                         }
                     }
                     if (savAcc!=null){
@@ -115,6 +127,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.CHECKING) {
                             invAcc=accs;
+                            break;
                         }
                     }
                     if (invAcc!=null){
@@ -145,7 +158,15 @@ public class UserBank implements ActionListener {
                         null,
                         types,
                         "Checking");
-                Object[] currencies = {"USD", "CA", "MX"};
+
+                Object[] currencies ={" "};
+                HashMap eRates =bank.getCurrencies();
+                int i=0;
+                for (Object cur : eRates.keySet()){
+                    currencies[i]= cur;
+                    i++;
+                }
+
                 String currency = (String)JOptionPane.showInputDialog(
                         null,
                         "Please choose what currency you want to withdraw in",
@@ -153,7 +174,7 @@ public class UserBank implements ActionListener {
                         JOptionPane.PLAIN_MESSAGE,
                         null,
                         currencies,
-                        "USD");
+                        currencies[0]);
 
                 if (acc == types[0]) {
                     //withdraw from checking acc
@@ -223,7 +244,7 @@ public class UserBank implements ActionListener {
             }
 
         } else if (e.getActionCommand().equals("View Balances")) {
-            //gets balances of all user accounts
+            //gets balances of all the active user's accounts
 
             for (Account accs : activeUser.getAccounts()) {
                 if (accs.type== AccountType.SAVING) {
@@ -247,10 +268,23 @@ public class UserBank implements ActionListener {
                 double collateral= Double.parseDouble(colAmount);
 
                 if (takeOut<= collateral) {
-                    JOptionPane.showMessageDialog(null,"Your loan has been approved");
-                    // add loan
 
-                    //activeUser.borrowLoan(account, takeOut,"USD");
+                    Account addLoanTo = null;
+                    for (Account accs : activeUser.getAccounts()) {
+                        if (accs.type== AccountType.CHECKING) {
+                            addLoanTo=accs;
+                        }
+                    }
+
+                    if (addLoanTo!=null) {
+                        activeUser.borrowLoan(addLoanTo, takeOut,"USD");
+                        JOptionPane.showMessageDialog(null,"Your loan has been approved!");
+
+                    } else {
+                        JOptionPane.showMessageDialog(null,"There is no checking account open to deposit a loan into.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null,"Your loan has not been approved.");
                 }
 
             }
@@ -258,10 +292,21 @@ public class UserBank implements ActionListener {
         } else if (e.getActionCommand().equals("Investments")) {
             double investAnswer = JOptionPane.showConfirmDialog(null, "Would you like to invest/check investments?", "Please click below:", JOptionPane.YES_NO_OPTION);
 
+            Account invAcc=null;
+            for (Account accs : activeUser.getAccounts()) {
+                if (accs.type== AccountType.INVESTMENT){
+                    invAcc=accs;
+                    break;
+                }
+            }
+
+            if (invAcc==null) {
+                JOptionPane.showMessageDialog(null,"No investment accounts found", "Investments", JOptionPane.PLAIN_MESSAGE);
+                investAnswer=JOptionPane.NO_OPTION;
+            }
 
             if (investAnswer == JOptionPane.YES_OPTION) {
 
-                //check if they have $5000+ in savings
                 Object[] options = {"New investments",
                         "Check current stock",
                         "Cancel"};
@@ -276,39 +321,75 @@ public class UserBank implements ActionListener {
 
                 if (decision == JOptionPane.YES_OPTION) {
                     //shows all stocks
-                    Object[] stocks = {"Apple APPL", "stock2", "stock3"};
-                    String s = (String)JOptionPane.showInputDialog(
+
+                    Object[] stocks ={" "};
+                    HashMap curStocks =bank.getStorage().getSM().getStocks();
+                    int i=0;
+                    for (Object stockName : curStocks.keySet()){
+                        stocks[i]= stockName;
+                        i++;
+                    }
+
+                    String stock = (String)JOptionPane.showInputDialog(
                             null,
                             "Please choose a stock to invest in",
                             "Investments",
                             JOptionPane.PLAIN_MESSAGE,
                             null,
-                            stocks,
-                            "Apple APPL");
+                            stocks,stocks[0]);
+
+                    String choose = JOptionPane.showInputDialog("Enter the number of "+ stock + " you would like to buy : ");
+                    double numStocks = Double.parseDouble(choose);
+
+
 
                 } else if (decision == JOptionPane.NO_OPTION) {
-
                     //get all current user stock investments
+
+                    Object[] option = {"Sell Stock",
+                            "Check gains",
+                            "Cancel"};
+                    int decide = JOptionPane.showOptionDialog(frame,
+                            "What would you like to do?",
+                            "Investments",
+                            JOptionPane.YES_NO_CANCEL_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            option,
+                            option[2]);
+
 
                 }
 
             }
 
-        } else if (e.getActionCommand().equals("Transfer Money")) {
-            double transferAnswer = JOptionPane.showConfirmDialog(null, "Would you like to send money to someone?", "Please click below:", JOptionPane.YES_NO_OPTION);
-            //allows money to be transferred to another account
+        } else if (e.getActionCommand().equals("Pay off Loan")) {
+            double transferAnswer = JOptionPane.showConfirmDialog(null, "Are you sure you would like to pay back loans?", "Please click below:", JOptionPane.YES_NO_OPTION);
+            //allows user to pay back loans
 
-            if (transferAnswer == JOptionPane.YES_OPTION) {
-                String sendAmount = JOptionPane.showInputDialog("Enter the amount you would like to send: $");
-                double transferring = Double.parseDouble(sendAmount);
-
-                //if (transferring<= user.balance)
-
-                String recipient = JOptionPane.showInputDialog("Enter the username of the person you would like to send money to :");
-
-                //check if user exists
-
+            boolean paidOff=false;
+            while (!paidOff) {
+                for (LoanReceipt loan : activeUser.getLoans()){
+                    for (Account accs : activeUser.getAccounts()) {
+                        paidOff= bank.getStorage().getLM().payBack(activeUser,accs,loan);
+                        if (paidOff) {
+                            JOptionPane.showMessageDialog(null,"Your loan has been paid off!", "Loans", JOptionPane.PLAIN_MESSAGE);
+                            break;
+                        }
+                    }
+                    if (paidOff) {
+                        break;
+                    }
+                }
+                if (paidOff) {
+                    break;
+                }
             }
+
+            if (!paidOff) {
+                JOptionPane.showMessageDialog(null,"You did not have enough money in your accounts to pay back a loan", "Loans", JOptionPane.PLAIN_MESSAGE);
+            }
+
 
 
         } else if (e.getActionCommand().equals("New Account")) {
@@ -337,14 +418,22 @@ public class UserBank implements ActionListener {
                     JOptionPane.showMessageDialog(null, "New Savings account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
 
                 } else if (newAcc == types[2]) {
-
-
                     //open new securities account if they have 5000+ in savings
 
+                    boolean canInvest=false;
+                    for (Account accs: activeUser.getAccounts()) {
+                        if (accs.type == AccountType.SAVING && accs.balance>=5000) {
+                                canInvest=true;
+                                break;
+                        }
+                    }
 
-                    bank.createAccount(activeUser, AccountType.INVESTMENT);
-                    JOptionPane.showMessageDialog(null, "New Investment account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
-
+                    if (canInvest) {
+                        bank.createAccount(activeUser, AccountType.INVESTMENT);
+                        JOptionPane.showMessageDialog(null, "New Investment account opened!", "New Accounts", JOptionPane.PLAIN_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "You must have at least $5000 in a savings account to open investments account. No account opened", "New Accounts", JOptionPane.WARNING_MESSAGE);
+                    }
 
                 }
 

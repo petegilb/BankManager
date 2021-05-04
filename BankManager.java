@@ -11,6 +11,8 @@ public class BankManager extends User {
 		return BaseBank.getBank().getAccounts();
 	}
 
+	public HashMap<String, Double> getCurrencies() { return BaseBank.getBank().getCurrencies(); }
+
 	public void setLoanInterestRate(double rate) {
 		BaseBank.getBank().getStorage().getLM().setRate(rate);
 	}
