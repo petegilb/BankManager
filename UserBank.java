@@ -242,10 +242,28 @@ public class UserBank implements ActionListener {
         } else if (e.getActionCommand().equals("Investments")) {
             double investAnswer = JOptionPane.showConfirmDialog(null, "Would you like to invest/check investments?", "Please click below:", JOptionPane.YES_NO_OPTION);
 
+            ArrayList<Object> typesList = new ArrayList<Object>();
+            for (Account acc: activeUser.getAccounts()) {
+                if (acc.getType()==AccountType.INVESTMENT) {
+                    typesList.add(acc.toString());
+                }
+            }
+
+            Object[] types = typesList.toArray();
+
+            String accountStr = (String)JOptionPane.showInputDialog(
+                    null,
+                    "Please choose which account you would like to deposit into",
+                    "Deposits",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    types,
+                    "Checking");
+
             InvestmentAccount invAcc=null;
-            for (Account accs : activeUser.getAccounts()) {
-                if (accs.getType()== AccountType.INVESTMENT){
-                    invAcc= (InvestmentAccount) accs;
+            for (Account acc : activeUser.getAccounts()) {
+                if (acc.toString().equals(accountStr)){
+                    invAcc = (InvestmentAccount) acc;
                     break;
                 }
             }
