@@ -212,7 +212,7 @@ public class UserBank implements ActionListener {
 
                     Account ckAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.type == AccountType.SAVING) {
                             ckAcc=accs;
                         }
                     }
@@ -233,7 +233,7 @@ public class UserBank implements ActionListener {
 
                     Account secAcc=null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.type == AccountType.INVESTMENT) {
                             secAcc=accs;
                         }
                     }
