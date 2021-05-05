@@ -77,8 +77,14 @@ public class UserBank implements ActionListener {
                 String dep = JOptionPane.showInputDialog("Enter the amount you would like to deposit : ");
                 double depositAmount = Double.parseDouble(dep);
 
-                Object[] types = {"Checking", "Savings", "Securities/Investments"};
-                String acc = (String)JOptionPane.showInputDialog(
+                ArrayList<Object> typesList = new ArrayList<Object>();
+                for (Account acc: activeUser.getAccounts()) {
+                    typesList.add(acc.toString());
+                }
+
+                Object[] types = typesList.toArray();
+
+                String accountStr = (String)JOptionPane.showInputDialog(
                         null,
                         "Please choose which account you would like to deposit into",
                         "Deposits",
@@ -87,7 +93,7 @@ public class UserBank implements ActionListener {
                         types,
                         "Checking");
 
-                ArrayList<Object> currencyList= new ArrayList<Object>();
+                ArrayList<Object> currencyList = new ArrayList<Object>();
                 HashMap eRates =bank.getCurrencies();
                 for (Object cur : eRates.keySet()){
                     currencyList.add(cur);
@@ -104,57 +110,21 @@ public class UserBank implements ActionListener {
                         currencies,
                         currencies[0]);
 
-                if (acc == types[0]) {
-                    //deposit to checking acc
+                //deposits to securities acc
 
-                    Account ckAcc= null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.CHECKING) {
-                            ckAcc=accs;
-                            break;
-                        }
+                Account account = null;
+                for (Account a: activeUser.getAccounts()) {
+                    if (a.toString().equals(accountStr)) {
+                        account = a;
+                        break;
                     }
-                    if (ckAcc!=null){
-                        ckAcc.deposit(depositAmount,currency);
-                        JOptionPane.showMessageDialog(null,"Deposited to checking account! Your balance is now: $"+ ckAcc.getBalance("USD"), "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Checking account not found. No Deposit made.", "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    }
+                }
 
-                } else if (acc == types[1]) {
-                    //deposit to savings acc
-
-                    Account savAcc= null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.SAVING) {
-                            savAcc=accs;
-                            break;
-                        }
-                    }
-                    if (savAcc!=null){
-                        savAcc.deposit(depositAmount, currency);
-                        JOptionPane.showMessageDialog(null,"Deposited to savings account! Your balance is now: $"+ savAcc.getBalance("USD"), "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Savings account not found. No Deposit made", "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    }
-
-                } else if (acc == types[2]) {
-                    //deposits to securities acc
-
-                    Account invAcc= null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.INVESTMENT) {
-                            invAcc=accs;
-                            break;
-                        }
-                    }
-                    if (invAcc!=null){
-                        invAcc.deposit(depositAmount, currency);
-                        JOptionPane.showMessageDialog(null,"Deposited to savings account! Your balance is now: $"+ invAcc.getBalance("USD"), "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Savings account not found. No Deposit made", "Deposits", JOptionPane.PLAIN_MESSAGE);
-                    }
-
+                if (account!=null){
+                    account.deposit(depositAmount, currency);
+                    JOptionPane.showMessageDialog(null,"Deposited to " + account.toString() + " ! Your balance is now: $" + account.getBalance("USD"), "Deposits", JOptionPane.PLAIN_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null,"No Deposit made", "Deposits", JOptionPane.PLAIN_MESSAGE);
                 }
 
             }
@@ -167,8 +137,14 @@ public class UserBank implements ActionListener {
                 String withdraw = JOptionPane.showInputDialog("Enter the amount you would like to withdraw: $");
                 double takeOut = Double.parseDouble(withdraw);
 
-                Object[] types = {"Checking", "Savings", "Securities/Investments"};
-                String acc = (String)JOptionPane.showInputDialog(
+                ArrayList<Object> typesList = new ArrayList<Object>();
+                for (Account acc: activeUser.getAccounts()) {
+                    typesList.add(acc.toString());
+                }
+
+                Object[] types = typesList.toArray();
+
+                String accountStr = (String)JOptionPane.showInputDialog(
                         null,
                         "Please choose which account you would like to withdraw from",
                         "Deposits",
@@ -193,72 +169,25 @@ public class UserBank implements ActionListener {
                         currencies,
                         currencies[0]);
 
-                if (acc == types[0]) {
-                    //withdraw from checking acc
+                
 
-                    Account ckAcc= null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.CHECKING) {
-                            ckAcc=accs;
-                            break;
-                        }
+                Account account = null;
+                for (Account a: activeUser.getAccounts()) {
+                    if (a.toString().equals(accountStr)) {
+                        account = a;
+                        break;
                     }
+                }
 
-                    if (ckAcc!=null){
-                        if (ckAcc.withdraw(takeOut, currency).isSuccess()) {
-                            ckAcc.withdraw(takeOut, currency);
-                            JOptionPane.showMessageDialog(null, "Withdrew from checking account! Your balance is now: $" + ckAcc.getBalance("USD"), "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null,"Not enough money. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        }
+                if (account != null) {
+                    if (account.withdraw(takeOut, currency).isSuccess()) {
+                        account.withdraw(takeOut, currency);
+                        JOptionPane.showMessageDialog(null, "Withdrew from " + account.toString() + "! Your balance is now: $" + account.getBalance("USD"), "Withdrawals", JOptionPane.PLAIN_MESSAGE);
                     } else {
-                        JOptionPane.showMessageDialog(null,"Checking account not found. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Not enough money. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
                     }
-
-                } else if (acc == types[1]) {
-                    //withdraw from savings acc
-
-                    Account ckAcc= null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.SAVING) {
-                            ckAcc=accs;
-                            break;
-                        }
-                    }
-
-                    if (ckAcc!=null){
-                        if (ckAcc.withdraw(takeOut, currency).isSuccess()) {
-                            ckAcc.withdraw(takeOut, currency);
-                            JOptionPane.showMessageDialog(null, "Withdrew from savings account! Your balance is now: $" + ckAcc.getBalance("USD"), "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null,"Not enough money. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Savings account not found. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                    }
-
-                } else if (acc == types[2]) {
-                    //withdraw from securities acc
-
-                    Account secAcc=null;
-                    for (Account accs: activeUser.getAccounts()) {
-                        if (accs.getType() == AccountType.INVESTMENT) {
-                            secAcc=accs;
-                            break;
-                        }
-                    }
-
-                    if (secAcc!=null){
-                        if (secAcc.withdraw(takeOut, currency).isSuccess()) {
-                            secAcc.withdraw(takeOut, currency);
-                            JOptionPane.showMessageDialog(null, "Withdrew from securities account! Your balance is now: $" + secAcc.getBalance("USD"), "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null,"Not enough money. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null,"Securities account not found. No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
-                    }
-
+                } else {
+                    JOptionPane.showMessageDialog(null,"No Withdrawal made", "Withdrawals", JOptionPane.PLAIN_MESSAGE);
                 }
 
             }
