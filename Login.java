@@ -36,7 +36,8 @@ public class Login implements ActionListener {
         loginFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         loginFrame.setSize(400, 400);
         loginFrame.setVisible(true);
-        loginFrame.setBackground(Color.pink);
+        loginFrame.getContentPane().setBackground(Color.PINK);
+        panel.setBackground(Color.PINK);
         loginFrame.add(panel);
         loginFrame.addWindowListener(new WindowAdapter() {
             @Override
