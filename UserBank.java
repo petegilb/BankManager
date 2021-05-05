@@ -16,6 +16,8 @@ public class UserBank implements ActionListener {
 
     public UserBank(NormalUser loggedIn) {
 
+
+
         bank= BaseBank.getBank();
         activeUser= loggedIn;
 

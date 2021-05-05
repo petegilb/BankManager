@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.HashMap;
 
 public class BMinterface implements ActionListener {
@@ -12,8 +13,15 @@ public class BMinterface implements ActionListener {
     private static JFrame frame;
     public static BaseBank bank;
     public static BankManager manager;
+    private final String filePath = "storage.json";
 
     public BMinterface() {
+
+        File tmpDir = new File(filePath);
+        boolean exists = tmpDir.exists();
+        if (exists) {
+            bank.getStorage().readStorage();
+        }
 
         bank= BaseBank.getBank();
         //Creating Java Swing frame
