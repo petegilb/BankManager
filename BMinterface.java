@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BMinterface implements ActionListener {
@@ -84,13 +85,12 @@ public class BMinterface implements ActionListener {
 
             if (updateAnswer==JOptionPane.YES_OPTION) {
 
-                Object[] stocks ={" "};
+                ArrayList<Object> stockList= new ArrayList<Object>();
                 HashMap curStocks =bank.getStorage().getSM().getStocks();
-                int i=0;
                 for (Object stockName : curStocks.keySet()){
-                    stocks[i]= stockName;
-                    i++;
+                    stockList.add(stockName);
                 }
+                Object [] stocks= stockList.toArray();
 
                 String update = (String) JOptionPane.showInputDialog(
                         null,

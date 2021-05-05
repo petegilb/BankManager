@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.File;
@@ -86,13 +87,13 @@ public class UserBank implements ActionListener {
                         types,
                         "Checking");
 
-                Object[] currencies ={" "};
+                ArrayList<Object> currencyList= new ArrayList<Object>();
                 HashMap eRates =bank.getCurrencies();
-                int i=0;
                 for (Object cur : eRates.keySet()){
-                        currencies[i]= cur;
-                        i++;
+                    currencyList.add(cur);
                 }
+                Object [] currencies= currencyList.toArray();
+
 
                 String currency = (String)JOptionPane.showInputDialog(
                         null,
@@ -176,13 +177,12 @@ public class UserBank implements ActionListener {
                         types,
                         "Checking");
 
-                Object[] currencies ={" "};
+                ArrayList<Object> currencyList= new ArrayList<Object>();
                 HashMap eRates =bank.getCurrencies();
-                int i=0;
                 for (Object cur : eRates.keySet()){
-                    currencies[i]= cur;
-                    i++;
+                    currencyList.add(cur);
                 }
+                Object [] currencies= currencyList.toArray();
 
                 String currency = (String)JOptionPane.showInputDialog(
                         null,
@@ -350,13 +350,12 @@ public class UserBank implements ActionListener {
                 } else if (invChoice==options[1]) {
                     //shows all stocks for buying
 
-                    Object[] stocks ={" "};
+                    ArrayList<Object> stockList= new ArrayList<Object>();
                     HashMap curStocks =bank.getStorage().getSM().getStocks();
-                    int i=0;
                     for (Object stockName : curStocks.keySet()){
-                        stocks[i]= stockName;
-                        i++;
+                        stockList.add(stockName);
                     }
+                    Object [] stocks= stockList.toArray();
 
                     String stock = (String)JOptionPane.showInputDialog(
                             null,
@@ -377,13 +376,12 @@ public class UserBank implements ActionListener {
                 } else if (invChoice==options[2]) {
                     //get all current user stock investments available to sell
 
-                    Object[] heldStocks ={" "};
-                    HashMap total = invAcc.getHoldStocks();
-                    int i=0;
-                    for (Object cur : total.keySet()){
-                        heldStocks[i]= cur;
-                        i++;
+                    ArrayList<Object> stockList= new ArrayList<Object>();
+                    HashMap total =invAcc.getHoldStocks();
+                    for (Object stockName : total.keySet()){
+                        stockList.add(stockName);
                     }
+                    Object [] heldStocks= stockList.toArray();
 
                     String theStock = (String)JOptionPane.showInputDialog(
                             null,
