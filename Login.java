@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
 public class Login implements ActionListener {
     //General base login
@@ -15,18 +18,35 @@ public class Login implements ActionListener {
     private static JLabel passwordLabel;
     private static JLabel success;
     private static BaseBank bank = new BaseBank();
+    private final String filePath = "storage.json";
+
 
 
     public Login() {
 
+
+        File tmpDir = new File(filePath);
+        boolean exists = tmpDir.exists();
+        if (exists) {
+            bank.getStorage().readStorage();
+        }
+
+
         //Creating Java Swing frame for login
         panel = new JPanel();
-        loginFrame = new JFrame(" Java Bank ATM");
-        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        loginFrame = new JFrame("Java Bank ATM");
+        loginFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         loginFrame.setSize(400, 400);
         loginFrame.setVisible(true);
         loginFrame.add(panel);
-
+        loginFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                bank.getStorage().writeStorage();
+                loginFrame.dispose();
+                System.exit(0);
+            }
+        });
 
         panel.setLayout(null);
         userLabel = new JLabel("Username");

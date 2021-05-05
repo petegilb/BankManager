@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 
 public class BMinterface implements ActionListener {
@@ -15,7 +17,15 @@ public class BMinterface implements ActionListener {
 
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                bank.getStorage().writeStorage();
+                frame.dispose();
+                System.exit(0);
+            }
+        });
 
         addToPane(frame.getContentPane());
         frame.pack();

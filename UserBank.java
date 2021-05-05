@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +21,15 @@ public class UserBank implements ActionListener {
 
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                bank.getStorage().writeStorage();
+                frame.dispose();
+                System.exit(0);
+            }
+        });
 
         addToPane(frame.getContentPane());
         frame.pack();
@@ -108,7 +118,7 @@ public class UserBank implements ActionListener {
 
                     Account savAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.type == AccountType.SAVING) {
                             savAcc=accs;
                             break;
                         }
@@ -125,7 +135,7 @@ public class UserBank implements ActionListener {
 
                     Account invAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.type == AccountType.INVESTMENT) {
                             invAcc=accs;
                             break;
                         }
@@ -221,7 +231,7 @@ public class UserBank implements ActionListener {
                 } else if (acc == types[2]) {
                     //withdraw from securities acc
 
-                    Account secAcc= null;
+                    Account secAcc=null;
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.CHECKING) {
                             secAcc=accs;
