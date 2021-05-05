@@ -15,6 +15,7 @@ public class BMinterface implements ActionListener {
 
     public BMinterface() {
 
+        bank= BaseBank.getBank();
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
