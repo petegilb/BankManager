@@ -25,7 +25,6 @@ public class UserBank implements ActionListener {
         }
         String currUsername = loggedIn.getUsername();
         activeUser= (NormalUser) bank.getStorage().getUM().getUser(currUsername);
-        System.out.println("account type is : " + activeUser.getAccounts().get(0).getType());
 
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
