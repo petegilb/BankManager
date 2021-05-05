@@ -83,6 +83,10 @@ public class BaseBank {
 		return bs;
 	}
 
+	public HashMap<String, Double> getRates(){
+		return exchangeRates;
+	}
+
 	/*
 	 * Allow bankmanager to add exchange rate for different currency
 	 */

@@ -91,6 +91,18 @@ public class BankStorage extends Storage{
         }
         storage.put("Stocks", stocksJ);
 
+        //add exchange rates
+        JSONArray rates = new JSONArray();
+        HashMap<String, Double> exchangeRates = bankPointer.getRates();
+        for(String key : exchangeRates.keySet()){
+            JSONObject curr = new JSONObject();
+            double rate = exchangeRates.get(key);
+            curr.put("currency", key);
+            curr.put("rate", rate);
+            rates.add(curr);
+        }
+        storage.put("ExchangeRates", rates);
+
         //write it all to the file
         try(FileWriter file = new FileWriter(storagePath)){
             file.write(storage.toJSONString());
@@ -334,6 +346,14 @@ public class BankStorage extends Storage{
                 double price = ((Number) stockJ.get("price")).doubleValue();
                 Stock stock = new Stock(name, price);
                 sm.addStock(stock);
+            }
+
+            JSONArray rates = (JSONArray) infoStorage.get("ExchangeRates");
+            for(int i=0; i<rates.size(); i++){
+                JSONObject rateJ = (JSONObject) rates.get(i);
+                String currency = (String) rateJ.get("currency");
+                double rate = ((Number)rateJ.get("rate")).doubleValue();
+                bankPointer.AddExchangeRate(currency, rate);
             }
 
         } catch (FileNotFoundException e) {

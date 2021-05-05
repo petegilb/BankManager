@@ -146,6 +146,8 @@ public class Test {
 		investTest.deposit(10000, "USD");
 		investTest.buyStock("APPL", 5);
 
+		bank.AddExchangeRate("JPN", 5.0);
+
 		//write to storage
 		bank.getStorage().writeStorage();
 
@@ -167,6 +169,9 @@ public class Test {
 
 		//loan tester
 		System.out.println(bank.getStorage().getLM().getLoanReceipts().get("user7").get(0).getAmount());
+
+		//test currency
+		System.out.println(bank.getExchangeRate("JPN"));
 
 
 		System.out.println();
