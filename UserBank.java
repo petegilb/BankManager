@@ -169,7 +169,7 @@ public class UserBank implements ActionListener {
                         currencies,
                         currencies[0]);
 
-                
+
 
                 Account account = null;
                 for (Account a: activeUser.getAccounts()) {
@@ -281,25 +281,30 @@ public class UserBank implements ActionListener {
 
                     ArrayList<Object> stockList= new ArrayList<Object>();
                     HashMap curStocks =bank.getStorage().getSM().getStocks();
-                    for (Object stockName : curStocks.keySet()){
-                        stockList.add(stockName);
+                    if(curStocks.size() > 0){
+                        for (Object stockName : curStocks.keySet()){
+                            stockList.add(stockName);
+                        }
+                        Object [] stocks= stockList.toArray();
+
+                        String stock = (String)JOptionPane.showInputDialog(
+                                null,
+                                "Please choose a stock to invest in",
+                                "Investments",
+                                JOptionPane.PLAIN_MESSAGE,
+                                null,
+                                stocks,stocks[0]);
+
+                        String choose = JOptionPane.showInputDialog("Enter the number of "+ stock + " you would like to buy : ");
+                        int numStocks = Integer.parseInt(choose);
+
+                        invAcc.buyStock(stock, numStocks);
+
+                        JOptionPane.showMessageDialog(null, "You bought stock!" , "Stocks", JOptionPane.PLAIN_MESSAGE);
                     }
-                    Object [] stocks= stockList.toArray();
-
-                    String stock = (String)JOptionPane.showInputDialog(
-                            null,
-                            "Please choose a stock to invest in",
-                            "Investments",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            stocks,stocks[0]);
-
-                    String choose = JOptionPane.showInputDialog("Enter the number of "+ stock + " you would like to buy : ");
-                    int numStocks = Integer.parseInt(choose);
-
-                    invAcc.buyStock(stock, numStocks);
-
-                    JOptionPane.showMessageDialog(null, "You bought stock!" , "Stocks", JOptionPane.PLAIN_MESSAGE);
+                    else{
+                        JOptionPane.showMessageDialog(null, "No stocks currently available." , "Stocks", JOptionPane.PLAIN_MESSAGE);
+                    }
 
 
                 } else if (invChoice==options[2]) {
@@ -307,25 +312,28 @@ public class UserBank implements ActionListener {
 
                     ArrayList<Object> stockList= new ArrayList<Object>();
                     HashMap total =invAcc.getHoldStocks();
-                    for (Object stockName : total.keySet()){
-                        stockList.add(stockName);
+                    if(total.size() > 0){
+                        for (Object stockName : total.keySet()){
+                            stockList.add(stockName);
+                        }
+                        Object [] heldStocks= stockList.toArray();
+
+                        String theStock = (String)JOptionPane.showInputDialog(
+                                null,
+                                "Please choose which stock you want to sell",
+                                "Stocks",
+                                JOptionPane.PLAIN_MESSAGE,
+                                null,
+                                heldStocks,
+                                heldStocks[0]);
+                        String selling = JOptionPane.showInputDialog("Enter the number you would like to sell : ");
+                        int numSell = Integer.parseInt(selling);
+
+                        invAcc.sellStock(theStock, numSell);
                     }
-                    Object [] heldStocks= stockList.toArray();
-
-                    String theStock = (String)JOptionPane.showInputDialog(
-                            null,
-                            "Please choose which stock you want to sell",
-                            "Stocks",
-                            JOptionPane.PLAIN_MESSAGE,
-                            null,
-                            heldStocks,
-                            heldStocks[0]);
-                    String selling = JOptionPane.showInputDialog("Enter the number you would like to sell : ");
-                    int numSell = Integer.parseInt(selling);
-
-                    invAcc.sellStock(theStock, numSell);
-
-
+                    else{
+                        JOptionPane.showMessageDialog(null, "You don't have any stocks." , "Stocks", JOptionPane.PLAIN_MESSAGE);
+                    }
                 }
 
             }
