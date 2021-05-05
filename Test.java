@@ -181,12 +181,4 @@ public class Test {
 		Login login = new Login();
 	}
 
-	public static void main(String[] args) {
-		Test.testLoan();
-		Test.testStock();
-		Test.testUserManagement();
-		Test.testAccount();
-		Test.testStorage();
-		Test.testGUI();
-	}
 }

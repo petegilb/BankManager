@@ -18,6 +18,7 @@ public class BMinterface implements ActionListener {
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent event) {
@@ -66,31 +67,35 @@ public class BMinterface implements ActionListener {
 
         } else if (e.getActionCommand().equals("Update Stock Prices")) {
 
-            Object[] stocks ={" "};
-            HashMap curStocks =bank.getStorage().getSM().getStocks();
-            int i=0;
-            for (Object stockName : curStocks.keySet()){
-                stocks[i]= stockName;
-                i++;
-            }
+            double updateAnswer = JOptionPane.showConfirmDialog(null, "Would you like to update a stock price?", "Please click below:", JOptionPane.YES_NO_OPTION);
 
-            String update = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Which stock price would you like to update?",
-                    "Investment Management",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    stocks,
-                    stocks[0]);
+            if (updateAnswer==JOptionPane.YES_OPTION) {
+
+                Object[] stocks ={" "};
+                HashMap curStocks =bank.getStorage().getSM().getStocks();
+                int i=0;
+                for (Object stockName : curStocks.keySet()){
+                    stocks[i]= stockName;
+                    i++;
+                }
+
+                String update = (String) JOptionPane.showInputDialog(
+                        null,
+                        "Which stock price would you like to update?",
+                        "Investment Management",
+                        JOptionPane.PLAIN_MESSAGE,
+                        null,
+                        stocks,
+                        stocks[0]);
 
                 String newPrice = JOptionPane.showInputDialog("Enter the new price of this stock $");
                 double price = Double.parseDouble(newPrice);
                 //overwrite stock price
                 manager.setStockPrice(update, price);
 
-            JOptionPane.showMessageDialog(null, "Stock price updated!", "Stock updates", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Stock price updated!", "Stock updates", JOptionPane.PLAIN_MESSAGE);
 
-
+            }
 
 
         } else if (e.getActionCommand().equals("Add a new stock")) {
@@ -118,6 +123,7 @@ public class BMinterface implements ActionListener {
                 double rate = Double.parseDouble(theRate);
 
                 bank.AddExchangeRate(name, rate);
+
                 JOptionPane.showMessageDialog(null, "New Currency added!", "New Currencies", JOptionPane.PLAIN_MESSAGE);
 
             }

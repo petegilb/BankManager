@@ -193,6 +193,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.CHECKING) {
                             ckAcc=accs;
+                            break;
                         }
                     }
 
@@ -214,6 +215,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.SAVING) {
                             ckAcc=accs;
+                            break;
                         }
                     }
 
@@ -235,6 +237,7 @@ public class UserBank implements ActionListener {
                     for (Account accs: activeUser.getAccounts()) {
                         if (accs.type == AccountType.INVESTMENT) {
                             secAcc=accs;
+                            break;
                         }
                     }
 
