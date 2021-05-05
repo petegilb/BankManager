@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.io.File;
 
 public class UserBank implements ActionListener {
     // bank user interface and options
@@ -17,14 +17,12 @@ public class UserBank implements ActionListener {
     private final String filePath = "storage.json";
 
     public UserBank(NormalUser loggedIn) {
-
+        bank= BaseBank.getBank();
         File tmpDir = new File(filePath);
         boolean exists = tmpDir.exists();
         if (exists) {
             bank.getStorage().readStorage();
         }
-
-        bank= BaseBank.getBank();
         activeUser= loggedIn;
 
         //Creating Java Swing frame

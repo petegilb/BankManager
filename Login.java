@@ -98,7 +98,6 @@ public class Login implements ActionListener {
                 success.setText("Welcome back to Java bank! Accessing bank information...");
 
                 //opens bank manager interface
-                bank.getStorage().writeStorage();
                 new BMinterface();
                 loginFrame.setVisible(false);
 
@@ -106,7 +105,6 @@ public class Login implements ActionListener {
                 success.setText("Welcome back to Java bank! Accessing bank information...");
 
                 //opens user bank interface for user
-                bank.getStorage().writeStorage();
                 new UserBank(new NormalUser(uText, uPassword));
                 loginFrame.setVisible(false);
 
@@ -121,6 +119,7 @@ public class Login implements ActionListener {
                 String uName = JOptionPane.showInputDialog("Enter a username, this is case sensitive: ");
                 String pass = JOptionPane.showInputDialog("Enter a password: ");
                 if (bank.createUser(uName, pass) != null) {
+                    bank.getStorage().writeStorage();
                     success.setText("Account has been created!");
                 } else {
                     success.setText("Username is already in use");
