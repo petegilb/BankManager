@@ -17,11 +17,6 @@ public class BMinterface implements ActionListener {
 
     public BMinterface() {
 
-        File tmpDir = new File(filePath);
-        boolean exists = tmpDir.exists();
-        if (exists) {
-            bank.getStorage().readStorage();
-        }
 
         bank= BaseBank.getBank();
         //Creating Java Swing frame
@@ -36,6 +31,13 @@ public class BMinterface implements ActionListener {
                 System.exit(0);
             }
         });
+
+        File tmpDir = new File(filePath);
+        boolean exists = tmpDir.exists();
+        if (exists) {
+            bank.getStorage().readStorage();
+        }
+
 
         addToPane(frame.getContentPane());
         frame.pack();
