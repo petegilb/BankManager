@@ -32,6 +32,8 @@ public class BMinterface implements ActionListener {
             }
         });
 
+        manager = new BankManager("admin", "12345");
+
         File tmpDir = new File(filePath);
         boolean exists = tmpDir.exists();
         if (exists) {
