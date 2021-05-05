@@ -48,19 +48,19 @@ public class Login implements ActionListener {
         panel.add(passwordText);
 
         button = new JButton("Login");
-        button.setBounds(10, 80, 80, 25);
+        button.setBounds(10, 80, 160, 25);
         //Login button checks for correct username and pin
         button.addActionListener(this::actionPerformed);
         panel.add(button);
 
         button = new JButton("Create Account");
-        button.setBounds(10, 95, 80, 25);
+        button.setBounds(10, 110, 160, 25);
         // lets new user create an account
         button.addActionListener(this::actionPerformed);
         panel.add(button);
 
         success = new JLabel("");
-        success.setBounds(10, 110, 300, 25);
+        success.setBounds(10, 150, 300, 25);
         panel.add(success);
 
 
