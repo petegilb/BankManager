@@ -23,7 +23,8 @@ public class UserBank implements ActionListener {
         if (exists) {
             bank.getStorage().readStorage();
         }
-        activeUser= loggedIn;
+        String currUsername = loggedIn.getUsername();
+        activeUser= (NormalUser) bank.getStorage().getUM().getUser(currUsername);
 
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
