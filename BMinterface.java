@@ -23,6 +23,7 @@ public class BMinterface implements ActionListener {
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.getContentPane().setBackground(Color.PINK);
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
