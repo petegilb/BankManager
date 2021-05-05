@@ -24,13 +24,11 @@ public class Login implements ActionListener {
 
     public Login() {
 
-
         File tmpDir = new File(filePath);
         boolean exists = tmpDir.exists();
         if (exists) {
             bank.getStorage().readStorage();
         }
-
 
         //Creating Java Swing frame for login
         panel = new JPanel();
@@ -100,6 +98,7 @@ public class Login implements ActionListener {
                 success.setText("Welcome back to Java bank! Accessing bank information...");
 
                 //opens bank manager interface
+                bank.getStorage().writeStorage();
                 new BMinterface();
                 loginFrame.setVisible(false);
 
@@ -107,6 +106,7 @@ public class Login implements ActionListener {
                 success.setText("Welcome back to Java bank! Accessing bank information...");
 
                 //opens user bank interface for user
+                bank.getStorage().writeStorage();
                 new UserBank(new NormalUser(uText, uPassword));
                 loginFrame.setVisible(false);
 
