@@ -25,6 +25,7 @@ public class UserBank implements ActionListener {
         }
         String currUsername = loggedIn.getUsername();
         activeUser= (NormalUser) bank.getStorage().getUM().getUser(currUsername);
+        System.out.println("account type is : " + activeUser.getAccounts().get(0).getType());
 
         //Creating Java Swing frame
         frame = new JFrame("Java Bank ATM");
@@ -108,7 +109,7 @@ public class UserBank implements ActionListener {
 
                     Account ckAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.getType() == AccountType.CHECKING) {
                             ckAcc=accs;
                             break;
                         }
@@ -125,7 +126,7 @@ public class UserBank implements ActionListener {
 
                     Account savAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.SAVING) {
+                        if (accs.getType() == AccountType.SAVING) {
                             savAcc=accs;
                             break;
                         }
@@ -142,7 +143,7 @@ public class UserBank implements ActionListener {
 
                     Account invAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.INVESTMENT) {
+                        if (accs.getType() == AccountType.INVESTMENT) {
                             invAcc=accs;
                             break;
                         }
@@ -198,7 +199,7 @@ public class UserBank implements ActionListener {
 
                     Account ckAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.CHECKING) {
+                        if (accs.getType() == AccountType.CHECKING) {
                             ckAcc=accs;
                             break;
                         }
@@ -220,7 +221,7 @@ public class UserBank implements ActionListener {
 
                     Account ckAcc= null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.SAVING) {
+                        if (accs.getType() == AccountType.SAVING) {
                             ckAcc=accs;
                             break;
                         }
@@ -242,7 +243,7 @@ public class UserBank implements ActionListener {
 
                     Account secAcc=null;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.INVESTMENT) {
+                        if (accs.getType() == AccountType.INVESTMENT) {
                             secAcc=accs;
                             break;
                         }
@@ -267,11 +268,11 @@ public class UserBank implements ActionListener {
             //gets balances of all the active user's accounts
 
             for (Account accs : activeUser.getAccounts()) {
-                if (accs.type== AccountType.SAVING) {
+                if (accs.getType()== AccountType.SAVING) {
                     JOptionPane.showMessageDialog(null, "Your Savings account Balance is : $" + accs.balance , "Balances", JOptionPane.PLAIN_MESSAGE);
-                } else if (accs.type== AccountType.CHECKING) {
+                } else if (accs.getType()== AccountType.CHECKING) {
                     JOptionPane.showMessageDialog(null, "Your Checking account Balance is : $" + accs.balance , "Balances", JOptionPane.PLAIN_MESSAGE);
-                } else if (accs.type== AccountType.INVESTMENT) {
+                } else if (accs.getType()== AccountType.INVESTMENT) {
                     JOptionPane.showMessageDialog(null, "Your Investment account Balance is : $" + accs.balance , "Balances", JOptionPane.PLAIN_MESSAGE);
                 }
             }
@@ -291,7 +292,7 @@ public class UserBank implements ActionListener {
 
                     Account addLoanTo = null;
                     for (Account accs : activeUser.getAccounts()) {
-                        if (accs.type== AccountType.CHECKING) {
+                        if (accs.getType()== AccountType.CHECKING) {
                             addLoanTo=accs;
                         }
                     }
@@ -314,7 +315,7 @@ public class UserBank implements ActionListener {
 
             InvestmentAccount invAcc=null;
             for (Account accs : activeUser.getAccounts()) {
-                if (accs.type== AccountType.INVESTMENT){
+                if (accs.getType()== AccountType.INVESTMENT){
                     invAcc= (InvestmentAccount) accs;
                     break;
                 }
@@ -462,7 +463,7 @@ public class UserBank implements ActionListener {
 
                     boolean canInvest=false;
                     for (Account accs: activeUser.getAccounts()) {
-                        if (accs.type == AccountType.SAVING && accs.balance>=5000) {
+                        if (accs.getType() == AccountType.SAVING && accs.balance>=5000) {
                                 canInvest=true;
                                 break;
                         }

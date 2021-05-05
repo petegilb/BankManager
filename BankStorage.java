@@ -221,10 +221,10 @@ public class BankStorage extends Storage{
                         int id = ((Number) account.get("id")).intValue();
                         int balance = ((Number) account.get("balance")).intValue();
                         Account acc;
-                        if(type.equals("Checking")){
+                        if(accType.equals("Checking")){
                             acc = new CheckingAccount(id, username);
                         }
-                        else if(type.equals("Saving")){
+                        else if(accType.equals("Saving")){
                             acc = new SavingAccount(id, username);
                         }
                         else{ //for investment accounts also add in the stock info
