@@ -85,6 +85,7 @@ public class Account {
 		return type;
 	}
 
-
-
+	public String toString() {
+		return id + " " + type.toString();
+	}
 }
