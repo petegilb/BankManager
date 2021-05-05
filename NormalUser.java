@@ -8,6 +8,7 @@ public class NormalUser extends User {
 		super(username, password);
 		this.accounts = new ArrayList<Account>();
 		type = UserType.NORMAL;
+		loans = new ArrayList<LoanReceipt>();
 	}
 
 	public void addAccount(Account account) {
@@ -24,6 +25,7 @@ public class NormalUser extends User {
 
 	public LoanReceipt borrowLoan(Account account, double amount, String currency) {
 		LoanReceipt loan = BaseBank.getBank().getStorage().getLM().getLoan(this, amount, currency);
+		loans.add(loan);
 		account.deposit(amount, currency);
 		return loan;
 	}
